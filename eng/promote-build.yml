@@ -52,11 +52,11 @@ stages:
 
                   $channels = $(PromoteToChannels) -split ","
                   foreach ($channelId in $channels) {
-                    $channelApiEndpoint = "$(MaestroApiEndPoint)/api/channels/$(channelId)?api-version=$(MaestroApiVersion)"
+                    $channelApiEndpoint = "$(MaestroApiEndPoint)/api/channels/${channelId}?api-version=$(MaestroApiVersion)"
                     $channelInfo = try { Invoke-WebRequest -Method Get -Uri $channelApiEndpoint -Headers $apiHeaders | ConvertFrom-Json } catch { Write-Host "Error: $_" }
 
                     if (!$channelInfo) {
-                      Write-Host "Channel with ID $(channelId) was not found in BAR. Aborting."
+                      Write-Host "Channel with ID ${channelId} was not found in BAR. Aborting."
                       exit 1
                     }
                   }
