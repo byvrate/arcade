@@ -69,7 +69,7 @@ jobs:
             Write-Host "##vso[task.setvariable variable=AzDOProjectName;isOutput=true]$AzureDevOpsProject"
             Write-Host "##vso[task.setvariable variable=AzDOPipelineId;isOutput=true]$AzureDevOpsBuildDefinitionId"
             Write-Host "##vso[task.setvariable variable=AzDOBuildId;isOutput=true]$AzureDevOpsBuildId"
-            Write-Host "##vso[task.setvariable variable=PromoteToMaestroChannelId;isOutput=true]$PromoteToMaestroChannelId"
+            Write-Host "##vso[task.setvariable variable=PromoteToChannels;isOutput=true]$PromoteToChannels"
           }
           catch {
             Write-Host $_
