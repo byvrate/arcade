@@ -56,8 +56,8 @@ stages:
     variables:
       - name: InitialChannels
         value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.InitialChannels'] ]
-      - name: PromoteToMaestroChannelId
-        value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.PromoteToMaestroChannelId'] ]
+      - name: PromoteToChannels
+        value: $[ dependencies.setupMaestroVars.outputs['setReleaseVars.PromoteToChannels'] ]
     pool:
       vmImage: 'windows-2019'
     steps:
@@ -65,7 +65,7 @@ stages:
         displayName: Maestro Channels Consistency
         inputs:
           filePath: $(Build.SourcesDirectory)/eng/common/post-build/check-channel-consistency.ps1
-          arguments: -PromoteToChannels "$(InitialChannels)[$(PromoteToMaestroChannelId)]"
+          arguments: -PromoteToChannels "$(InitialChannels)[$(PromoteToChannels)]"
             -AvailableChannelIds ${{parameters.NetEngLatestChannelId}},${{parameters.NetEngValidationChannelId}},${{parameters.NetDev5ChannelId}},${{parameters.GeneralTestingChannelId}},${{parameters.NETCoreToolingDevChannelId}},${{parameters.NETCoreToolingReleaseChannelId}},${{parameters.NETInternalToolingChannelId}},${{parameters.NETCoreExperimentalChannelId}},${{parameters.NetEngServicesIntChannelId}},${{parameters.NetEngServicesProdChannelId}},${{parameters.Net5Preview2ChannelId}},${{parameters.Net5Preview3ChannelId}},${{parameters.NetCoreSDK313xxChannelId}},${{parameters.NetCoreSDK313xxInternalChannelId}}
 
   - job:
