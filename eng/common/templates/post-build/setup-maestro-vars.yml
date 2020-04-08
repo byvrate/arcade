@@ -5,8 +5,8 @@ jobs:
     - template: common-variables.yml
     - name: BuildId
       value: $[ coalesce(variables.BARBuildId, 0) ]
-    - name: PromoteToChannelId
-      value: $[ coalesce(variables.PromoteToMaestroChannelId, 0) ]
+    - name: PromoteToChannels
+      value: $[ coalesce(variables.PromoteToChannels, 0) ]
   pool:
     vmImage: 'windows-2019'
   steps:
@@ -26,7 +26,7 @@ jobs:
         targetType: inline
         script: |
           try {
-            if ($Env:PromoteToChannelId -eq 0) {
+            if ($Env:PromoteToChannels -eq 0) {
               $Content = Get-Content $(Build.StagingDirectory)/ReleaseConfigs/ReleaseConfigs.txt
 
               $BarId = $Content | Select -Index 0
@@ -59,7 +59,7 @@ jobs:
               $AzureDevOpsProject = $buildInfo.azureDevOpsProject
               $AzureDevOpsBuildDefinitionId = $buildInfo.azureDevOpsBuildDefinitionId
               $AzureDevOpsBuildId = $buildInfo.azureDevOpsBuildId
-              $PromoteToMaestroChannelId = $Env:PromoteToMaestroChannelId
+              $PromoteToChannels = $Env:PromoteToChannels
             }
 
             Write-Host "##vso[task.setvariable variable=BARBuildId;isOutput=true]$BarId"
