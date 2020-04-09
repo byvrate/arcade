@@ -49,7 +49,7 @@ jobs:
              
               $BarId = $Env:BARBuildId
               $Channels = $Env:PromoteToChannels -join "]["
-              $Channels = "[$(Channels)]"
+              $Channels = "[$Channels]"
 
               $IsStableBuild = $buildInfo.stable
               $AzureDevOpsProject = $buildInfo.azureDevOpsProject
