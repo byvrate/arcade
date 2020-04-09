@@ -30,10 +30,7 @@ jobs:
               $Content = Get-Content $(Build.StagingDirectory)/ReleaseConfigs/ReleaseConfigs.txt
 
               $BarId = $Content | Select -Index 0
-
-              $Channels = ""
-              $Content | Select -Index 1 | ForEach-Object { $Channels += "$_ ," }
-              
+              $Channels = $Content | Select -Index 1             
               $IsStableBuild = $Content | Select -Index 2
 
               $AzureDevOpsProject = $Env:System_TeamProject
@@ -51,11 +48,10 @@ jobs:
               $buildInfo = try { Invoke-WebRequest -Method Get -Uri $buildApiEndpoint -Headers $apiHeaders | ConvertFrom-Json } catch { Write-Host "Error: $_" }
              
               $BarId = $Env:BARBuildId
-              $Channels = $Env:PromoteToChannels
+              $Channels = $Env:PromoteToChannels -join "]["
+              $Channels = "[$(Channels)]"
 
-              #TODO: Fix this once this issue is done: https://github.com/dotnet/arcade/issues/3834
-              $IsStableBuild = 'False'
-
+              $IsStableBuild = $buildInfo.stable
               $AzureDevOpsProject = $buildInfo.azureDevOpsProject
               $AzureDevOpsBuildDefinitionId = $buildInfo.azureDevOpsBuildDefinitionId
               $AzureDevOpsBuildId = $buildInfo.azureDevOpsBuildId
