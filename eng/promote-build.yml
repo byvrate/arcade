@@ -2,6 +2,7 @@
 # These variables should be declared at build queue time:
 #
 #   - BARBuildId                                    ; Maestro++/BAR ID of the build to be promoted
+#   - PromoteToMaestroChannelId                     ; To which Maestro++ the build should be promoted to
 #   - PromoteToChannelIds                           ; Comma-separated list of Maestro++ channel's ID that the build must be promoted to
 #   - EnableSourceLinkValidation                    ; Whether source link validation should be performed
 #   - EnableNugetValidation                         ; Whether NuGet metadata validation should be performed
@@ -113,4 +114,4 @@ stages:
     signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
 
     BARBuildId: $(BARBuildId)
-    PromoteToChannelIds: $(PromoteToChannelIds)
+    PromoteToChannelIds: $(PromoteToChannelIds),$(PromoteToMaestroChannelId)
