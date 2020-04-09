@@ -2,7 +2,7 @@
 # These variables should be declared at build queue time:
 #
 #   - BARBuildId                                    ; Maestro++/BAR ID of the build to be promoted
-#   - PromoteToChannels                             ; Comma-separated list of Maestro++ channel's ID that the build must be promoted to
+#   - PromoteToChannelIds                           ; Comma-separated list of Maestro++ channel's ID that the build must be promoted to
 #   - EnableSourceLinkValidation                    ; Whether source link validation should be performed
 #   - EnableNugetValidation                         ; Whether NuGet metadata validation should be performed
 #   - EnableSigningValidation                       ; Whether signing validation should be performed
@@ -50,7 +50,7 @@ stages:
                     exit 1
                   }
 
-                  $channels = $(PromoteToChannels) -split ","
+                  $channels = $(PromoteToChannelIds) -split ","
                   foreach ($channelId in $channels) {
                     $channelApiEndpoint = "$(MaestroApiEndPoint)/api/channels/${channelId}?api-version=$(MaestroApiVersion)"
                     $channelInfo = try { Invoke-WebRequest -Method Get -Uri $channelApiEndpoint -Headers $apiHeaders | ConvertFrom-Json } catch { Write-Host "Error: $_" }
@@ -73,7 +73,7 @@ stages:
                     $azureDevOpsRepository = $azureDevOpsRepository -replace '["/:<>\\|?@*"]', '_'
                   }
 
-                  $buildNumberName = "Promoting $azureDevOpsRepository build $azureDevOpsBuildNumber to channel(s) ${PromoteToChannels}#"
+                  $buildNumberName = "Promoting $azureDevOpsRepository build $azureDevOpsBuildNumber to channel(s) ${PromoteToChannelIds}#"
 
                   # Maximum buildnumber length is 255 chars
                   if ($buildNumberName.Length -GT 255) {
@@ -113,4 +113,4 @@ stages:
     signingValidationAdditionalParameters: $(SigningValidationAdditionalParameters)
 
     BARBuildId: $(BARBuildId)
-    PromoteToChannels: $(PromoteToChannels)
+    PromoteToChannelIds: $(PromoteToChannelIds)
